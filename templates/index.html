@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phishing Website Detector</title>
+
+    <style>
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family:'Segoe UI',sans-serif;
+        }
+
+        body{
+            min-height:100vh;
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            background:linear-gradient(135deg,#141e30,#243b55);
+            padding:30px;
+        }
+
+        .container{
+            width:900px;
+            padding:40px;
+            background:rgba(255,255,255,0.08);
+            backdrop-filter:blur(15px);
+            border-radius:20px;
+            box-shadow:0 8px 32px rgba(0,0,0,0.3);
+            color:white;
+        }
+
+        .shield{
+            text-align:center;
+            font-size:60px;
+            margin-bottom:10px;
+        }
+
+        h1{
+            text-align:center;
+            margin-bottom:10px;
+        }
+
+        .subtitle{
+            text-align:center;
+            color:#d1d1d1;
+            margin-bottom:30px;
+        }
+
+        .section{
+            margin-top:25px;
+            margin-bottom:25px;
+        }
+
+        h2{
+            margin-bottom:15px;
+        }
+
+        input[type="text"],
+        input[type="file"]{
+            width:100%;
+            padding:15px;
+            border:none;
+            border-radius:10px;
+            margin-bottom:15px;
+            font-size:16px;
+        }
+
+        button{
+            width:100%;
+            background:#00c853;
+            color:white;
+            border:none;
+            padding:15px;
+            border-radius:10px;
+            font-size:18px;
+            cursor:pointer;
+            transition:0.3s;
+        }
+
+        button:hover{
+            background:#00e676;
+            transform:scale(1.02);
+        }
+
+        .result{
+            margin-top:25px;
+            padding:20px;
+            border-radius:10px;
+            background:rgba(255,255,255,0.1);
+        }
+
+        .result h2{
+            margin-bottom:10px;
+        }
+
+        .url-box{
+            word-wrap:break-word;
+            color:#90caf9;
+        }
+
+        .reasons{
+            margin-top:20px;
+            text-align:left;
+        }
+
+        .reasons ul{
+            margin-left:20px;
+            margin-top:10px;
+        }
+
+        .reasons li{
+            margin-bottom:8px;
+        }
+
+        .footer{
+            margin-top:30px;
+            text-align:center;
+            color:#cccccc;
+        }
+
+        hr{
+            margin:30px 0;
+            border:none;
+            height:1px;
+            background:rgba(255,255,255,0.2);
+        }
+    </style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="shield">🛡️</div>
+
+    <h1>Phishing Website Detector</h1>
+
+    <p class="subtitle">
+        Detect malicious URLs using Machine Learning + Explainable AI + QR Scanner
+    </p>
+
+    <!-- URL Detection -->
+
+    <div class="section">
+
+        <h2>🔗 Check Website URL</h2>
+
+        <form action="/predict" method="POST">
+
+            <input
+                type="text"
+                name="url"
+                placeholder="Enter Website URL"
+                required>
+
+            <button type="submit">
+                Analyze URL
+            </button>
+
+        </form>
+
+    </div>
+
+    <hr>
+
+    <!-- QR Detection -->
+
+    <div class="section">
+
+        <h2>📷 Upload QR Code</h2>
+
+        <form
+            action="/scan_qr"
+            method="POST"
+            enctype="multipart/form-data">
+
+            <input
+                type="file"
+                name="qr_image"
+                accept="image/*"
+                required>
+
+            <button type="submit">
+                Scan QR Code
+            </button>
+
+        </form>
+
+    </div>
+
+    {% if prediction %}
+
+    <div class="result">
+
+        <h2>{{ prediction }}</h2>
+
+        <p>
+            <strong>Confidence:</strong>
+            {{ confidence }}%
+        </p>
+
+        <br>
+
+        <p>
+            <strong>Detected URL:</strong>
+        </p>
+
+        <p class="url-box">
+            {{ checked_url }}
+        </p>
+
+        {% if reasons %}
+
+        <div class="reasons">
+
+            <h3>🧠 Explainable AI Analysis</h3>
+
+            <ul>
+
+                {% for reason in reasons %}
+
+                <li>{{ reason }}</li>
+
+                {% endfor %}
+
+            </ul>
+
+        </div>
+
+        {% endif %}
+
+    </div>
+
+    {% endif %}
+
+    <div class="footer">
+        Developed using Flask • Machine Learning • OpenCV
+    </div>
+
+</div>
+
+</body>
+</html>
