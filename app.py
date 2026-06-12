@@ -7,15 +7,8 @@ import numpy as np
 app = Flask(__name__)
 
 
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-
-model = pickle.load(
-    open(os.path.join(BASE_DIR, "phishing.pkl"), "rb")
-)
-
-vectorizer = pickle.load(
-    open(os.path.join(BASE_DIR, "vectorizer.pkl"), "rb")
-)
+model = pickle.load(open("phishing.pkl", "rb"))
+vectorizer = pickle.load(open("vectorizer.pkl", "rb"))
 
 
 
